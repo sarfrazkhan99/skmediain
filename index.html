@@ -1,84 +1,246 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>SKMediaIn</title>
+<title>SKMediaIn Influencer Platform</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
+body{font-family:Arial;margin:0;background:#f5f5f5}
 
-body{
-font-family:Arial;
-margin:0;
-background:#f3f3f3;
+header{background:#111;color:white;padding:15px;text-align:center;font-size:24px}
+
+.hero{background:#2563eb;color:white;text-align:center;padding:50px}
+
+.container{padding:30px}
+
+input,select{padding:8px;margin:5px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+
+.creator{background:white;padding:15px;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,.1);text-align:center}
+
+.creator img{width:100%;border-radius:8px}
+
+button{background:#2563eb;color:white;border:none;padding:8px 15px;border-radius:6px;cursor:pointer}
+
+.dashboard,.campaign{background:white;padding:20px;border-radius:10px;margin-top:40px}
+
+footer{background:#111;color:white;text-align:center;padding:15px;margin-top:40px}
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.7);
 }
 
-header{
-background:black;
-color:white;
-padding:15px;
-text-align:center;
-font-size:24px;
-}
-
-.container{
-padding:20px;
-}
-
-.creator{
+.modal-content{
 background:white;
 padding:20px;
-margin-bottom:20px;
+margin:10% auto;
+width:300px;
 border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-.creator img{
-width:100%;
-border-radius:10px;
-}
-
-button{
-background:#2563eb;
-color:white;
-border:none;
-padding:10px 15px;
-border-radius:6px;
+text-align:center
 }
 
 </style>
-
 </head>
 
 <body>
 
-<header>
-SKMediaIn Influencer Marketplace
-</header>
+<header>SKMediaIn Influencer Marketplace</header>
+
+<div class="hero">
+<h1>Find Influencers For Your Brand</h1>
+<p>Connect brands with creators</p>
+</div>
 
 <div class="container">
 
-<h2>Top Creators</h2>
+<h2>Search Creators</h2>
+
+<input id="search" placeholder="Search name">
+
+<select id="category">
+<option value="">All Category</option>
+<option>Beauty</option>
+<option>Travel</option>
+<option>Fitness</option>
+</select>
+
+<div class="grid" id="creatorList"></div>
+
+
+<div class="dashboard">
+
+<h2>Creator Dashboard</h2>
+
+<input id="name" placeholder="Creator Name">
+
+<input id="categoryInput" placeholder="Category">
+
+<input id="followers" placeholder="Followers">
+
+<button onclick="addCreator()">Add Creator</button>
+
+</div>
+
+
+<div class="campaign">
+
+<h2>Create Campaign</h2>
+
+<input id="brand" placeholder="Brand Name">
+
+<input id="campaignName" placeholder="Campaign Title">
+
+<button onclick="createCampaign()">Create Campaign</button>
+
+<ul id="campaignList"></ul>
+
+</div>
+
+</div>
+
+<footer>© 2026 SKMediaIn</footer>
+
+
+<div id="profileModal" class="modal">
+
+<div class="modal-content">
+
+<h3 id="profileName"></h3>
+
+<p id="profileCategory"></p>
+
+<p id="profileFollowers"></p>
+
+<button onclick="closeProfile()">Close</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+let creators = JSON.parse(localStorage.getItem("creators")) || [
+
+{name:"Anushkaa",category:"Beauty",followers:"14K"},
+
+{name:"Rahul Vlogs",category:"Travel",followers:"30K"},
+
+{name:"Fitness King",category:"Fitness",followers:"52K"}
+
+]
+
+function saveData(){
+
+localStorage.setItem("creators",JSON.stringify(creators))
+
+}
+
+function renderCreators(){
+
+let search=document.getElementById("search").value.toLowerCase()
+
+let category=document.getElementById("category").value
+
+let list=document.getElementById("creatorList")
+
+list.innerHTML=""
+
+creators.forEach((c,i)=>{
+
+if((c.name.toLowerCase().includes(search)) &&
+
+(category==""||c.category==category)){
+
+list.innerHTML+=`
 
 <div class="creator">
 
 <img src="https://via.placeholder.com/300">
 
-<h3>Anushkaa</h3>
+<h3>${c.name}</h3>
 
-<p>Category: Beauty / Skincare</p>
+<p>${c.category}</p>
 
-<p>Followers: 14.5K</p>
+<p>${c.followers}</p>
 
-<p>City: India</p>
-
-<a href="https://instagram.com/flawsofanushkaa">
-
-<button>View Instagram</button>
-
-</a>
+<button onclick="viewProfile(${i})">Profile</button>
 
 </div>
 
-</div>
+`
+
+}
+
+})
+
+}
+
+function addCreator(){
+
+let name=document.getElementById("name").value
+
+let category=document.getElementById("categoryInput").value
+
+let followers=document.getElementById("followers").value
+
+creators.push({name,category,followers})
+
+saveData()
+
+renderCreators()
+
+}
+
+function viewProfile(i){
+
+let c=creators[i]
+
+document.getElementById("profileName").innerText=c.name
+
+document.getElementById("profileCategory").innerText="Category: "+c.category
+
+document.getElementById("profileFollowers").innerText="Followers: "+c.followers
+
+document.getElementById("profileModal").style.display="block"
+
+}
+
+function closeProfile(){
+
+document.getElementById("profileModal").style.display="none"
+
+}
+
+document.getElementById("search").onkeyup=renderCreators
+
+document.getElementById("category").onchange=renderCreators
+
+renderCreators()
+
+
+function createCampaign(){
+
+let brand=document.getElementById("brand").value
+
+let name=document.getElementById("campaignName").value
+
+let li=document.createElement("li")
+
+li.innerText=brand+" - "+name
+
+document.getElementById("campaignList").appendChild(li)
+
+}
+
+</script>
 
 </body>
 </html>
