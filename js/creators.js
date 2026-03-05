@@ -1,39 +1,48 @@
-import { db } from "./firebase.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-import {
-collection,
-getDocs
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "skmediain-c7991.firebaseapp.com",
+  projectId: "skmediain-c7991",
+  storageBucket: "skmediain-c7991.appspot.com",
+  messagingSenderId: "121601764922",
+  appId: "1:121601764922:web:example"
+};
 
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-window.loadCreators = async function(){
+async function loadCreators() {
 
-const querySnapshot = await getDocs(collection(db,"creators"));
+  const querySnapshot = await getDocs(collection(db, "creators"));
 
-let html="";
+  const list = document.getElementById("creatorsList");
+  list.innerHTML = "";
 
-querySnapshot.forEach((doc)=>{
+  querySnapshot.forEach((doc) => {
 
-let data = doc.data();
+    const c = doc.data();
 
-html += `
-<div class="creator-card">
+    list.innerHTML += `
+      <div class="creator">
 
-<h3>${data.name}</h3>
+        <img src="${c.photo}" width="100%">
 
-<p>@${data.instagram}</p>
+        <h3>${c.name}</h3>
 
-<p>${data.followers} Followers</p>
+        <p>${c.category}</p>
 
-<p>${data.category}</p>
+        <p>${c.followers}</p>
 
-<p>${data.city}</p>
+        <a href="https://instagram.com/${c.instagram}" target="_blank">
+        <button>Instagram</button>
+        </a>
 
-</div>
-`;
-
-});
-
-document.getElementById("creatorsList").innerHTML = html;
+      </div>
+    `;
+  });
 
 }
+
+loadCreators();
