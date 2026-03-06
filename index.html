@@ -1,92 +1,124 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>SKMediaIn Influencer Platform</title>
+<title>SKMediaIn Influencer Marketplace</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<link rel="stylesheet" href="css/style.css">
+
 <style>
-body{font-family:Arial;margin:0;background:#f5f5f5}
 
-header{background:#111;color:white;padding:15px;text-align:center;font-size:24px}
-
-.hero{background:#2563eb;color:white;text-align:center;padding:50px}
-
-.container{padding:30px}
-
-input,select{padding:8px;margin:5px}
-
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
-
-.creator{background:white;padding:15px;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,.1);text-align:center}
-
-.creator img{width:100%;border-radius:8px}
-
-button{background:#2563eb;color:white;border:none;padding:8px 15px;border-radius:6px;cursor:pointer}
-
-.dashboard,.campaign{background:white;padding:20px;border-radius:10px;margin-top:40px}
-
-footer{background:#111;color:white;text-align:center;padding:15px;margin-top:40px}
-
-.modal{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.7);
+body{
+font-family:Arial;
+margin:0;
+background:#f5f5f5;
 }
 
-.modal-content{
+header{
+background:#111;
+color:white;
+padding:15px;
+text-align:center;
+font-size:24px;
+}
+
+.hero{
+background:#2563eb;
+color:white;
+text-align:center;
+padding:60px;
+}
+
+.container{
+padding:30px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.creator{
 background:white;
 padding:20px;
-margin:10% auto;
-width:300px;
 border-radius:10px;
-text-align:center
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+.creator img{
+width:100%;
+border-radius:10px;
+}
+
+button{
+background:#2563eb;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:6px;
+cursor:pointer;
+}
+
+input,select{
+padding:8px;
+margin:5px;
+}
+
+.campaign{
+background:white;
+padding:20px;
+border-radius:10px;
+margin-top:40px;
+}
+
+footer{
+background:#111;
+color:white;
+text-align:center;
+padding:15px;
+margin-top:40px;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<header>SKMediaIn Influencer Marketplace</header>
+<header>
+SKMediaIn Influencer Marketplace
+</header>
+
 
 <div class="hero">
+
 <h1>Find Influencers For Your Brand</h1>
 <p>Connect brands with creators</p>
+
 </div>
+
 
 <div class="container">
 
 <h2>Search Creators</h2>
 
-<input id="search" placeholder="Search name">
+<input id="search" placeholder="Search creator">
 
 <select id="category">
+
 <option value="">All Category</option>
 <option>Beauty</option>
 <option>Travel</option>
 <option>Fitness</option>
+
 </select>
 
+
 <div class="grid" id="creatorsList"></div>
-
-
-<div class="dashboard">
-
-<h2>Creator Dashboard</h2>
-
-<input id="name" placeholder="Creator Name">
-
-<input id="categoryInput" placeholder="Category">
-
-<input id="followers" placeholder="Followers">
-
-<button onclick="addCreator()">Add Creator</button>
-
-</div>
 
 
 <div class="campaign">
@@ -105,6 +137,22 @@ text-align:center
 
 </div>
 
+
+<footer>
+© 2026 SKMediaIn
+</footer>
+
+
+<script type="module" src="js/firebase.js"></script>
+
+<script type="module" src="js/creators.js"></script>
+
+<script type="module" src="js/campaigns.js"></script>
+
+
+</body>
+
+</html>
 <footer>© 2026 SKMediaIn</footer>
 
 
