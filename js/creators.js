@@ -1,48 +1,42 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { db } from "./firebase.js"
+import { collection,getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
 
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "skmediain-c7991.firebaseapp.com",
-  projectId: "skmediain-c7991",
-  storageBucket: "skmediain-c7991.appspot.com",
-  messagingSenderId: "121601764922",
-  appId: "1:121601764922:web:example"
-};
+async function loadCreators(){
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const snapshot=await getDocs(collection(db,"creators"))
 
-async function loadCreators() {
+const list=document.getElementById("creatorsList")
 
-  const querySnapshot = await getDocs(collection(db, "creators"));
+list.innerHTML=""
 
-  const list = document.getElementById("creatorsList");
-  list.innerHTML = "";
+snapshot.forEach(doc=>{
 
-  querySnapshot.forEach((doc) => {
+const c=doc.data()
 
-    const c = doc.data();
+list.innerHTML+=`
 
-    list.innerHTML += `
-      <div class="creator">
+<div class="creator">
 
-        <img src="${c.photo}" width="100%">
+<img src="${c.photo}" />
 
-        <h3>${c.name}</h3>
+<h3>${c.name}</h3>
 
-        <p>${c.category}</p>
+<p>${c.category}</p>
 
-        <p>${c.followers}</p>
+<p>${c.followers}</p>
 
-        <a href="https://instagram.com/${c.instagram}" target="_blank">
-        <button>Instagram</button>
-        </a>
+<a href="https://instagram.com/${c.instagram}" target="_blank">
 
-      </div>
-    `;
-  });
+<button>Instagram</button>
+
+</a>
+
+</div>
+
+`
+
+})
 
 }
 
-loadCreators();
+loadCreators()
